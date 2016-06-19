@@ -10,6 +10,7 @@ func say(name string) {
 func main() {
 	runtime.GOMAXPROCS(4)
 	go say("try")
+	go say("hello")
 	for {
 
 	}
