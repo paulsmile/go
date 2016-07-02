@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hoisie/redis"
 	"sync"
+	"time"
 )
 
 var (
@@ -33,6 +34,24 @@ func Score(key string) (int, error) {
 	return client.Scard(key)
 }
 
+func Members(key string) ([][]byte, error) {
+	return client.Smembers(key)
+}
+
+/**
+ * @param key string
+ * @param val []byte
+ * @param t int64 means set the timeout
+ * return error
+ **/
+func Set(key string, val []byte, t int64) error {
+	return client.Setex(key, t, val)
+}
+
+func Get(key string) ([]byte, error) {
+	return client.Get(key)
+}
+
 func main() {
 	info, _ := Sadd("test", []byte("hello"))
 	fmt.Println(info)
@@ -47,5 +66,23 @@ func main() {
 	// }
 	result, _ := Score("test")
 	fmt.Println(result)
+
+	members, _ := Members("test")
+	fmt.Println(len(members))
+
+	Set("aa", []byte("show me the code, jackson!!"), 3)
+
+	value, _ := Get("aa")
+	fmt.Println(string(value))
+
+	// sleep 3 second later
+	time.Sleep(3 * time.Second)
+
+	aa_result, err := Get("aa")
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println(aa_result)
+	}
 
 }
