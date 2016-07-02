@@ -38,6 +38,10 @@ func Members(key string) ([][]byte, error) {
 	return client.Smembers(key)
 }
 
+func Sismember(key string, value []byte) (bool, error) {
+	return client.Sismember(key, value)
+}
+
 /**
  * @param key string
  * @param val []byte
@@ -84,5 +88,8 @@ func main() {
 	} else {
 		fmt.Println(aa_result)
 	}
+
+	t, _ := Sismember("test", []byte("test222"))
+	fmt.Println(t)
 
 }
