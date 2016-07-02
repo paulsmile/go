@@ -48,6 +48,7 @@ func redisServer(w http.ResponseWriter, r *http.Request) {
 	c := InitRedis("tcp", "localhost:6379")
 	dbkey := "netgame:info"
 	if ok, err := redis.Bool(c.Do("LPUSH", dbkey, "yanetao")); ok {
+		fmt.Sprintf("ok:%d", ok)
 	} else {
 		log.Print(err)
 	}
